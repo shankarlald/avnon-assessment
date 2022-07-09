@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>Add a New Question</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="questionForm">
+    <!-- type -->
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type" (selectionChange)="onTypeSelection($event)">
+        <mat-option *ngFor="let type of questionTypes" [value]="type.value">
+          {{type.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- question -->
+    <mat-form-field>
+      <mat-label>Question</mat-label>
+      <input matInput placeholder="Type your question here" formControlName="question">
+    </mat-form-field>
+
+    <!-- options -->
+    <ng-container *ngIf="questionForm.value.type === 'checkbox'">
+      <h3>Options</h3>
+      <div formArrayName="options" class="row">
+        <div *ngFor="let option of options.controls; let i = index">
+          <div [formGroupName]="i">
+            <mat-form-field class="w-90">
+              <mat-label>Option</mat-label>
+              <input matInput placeholder="Option" formControlName="value">
+            </mat-form-field>
+            <button class="w-10" type="button" mat-icon-button color="warn" (click)="removeOption(i)"
+              matTooltip="Delete">
+              <mat-icon>delete-outline</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- default option 'OTHER' -->
+        <mat-form-field>
+          <mat-label>Option</mat-label>
+          <input matInput value="Other" disabled>
+        </mat-form-field>
+      </div>
+      <!-- add option button -->
+      <button type="button" class="btn-link" mat-button color="primary" (click)="addOption()">Add New Option</button>
+    </ng-container>
+  </form>
+</div>
+
+<!-- error msg -->
+<div *ngIf="isFormSubmitted && questionForm.invalid" class="has-error">Please enter required fields</div>
+<div *ngIf="isFormSubmitted && questionForm.value.type === 'checkbox' && !questionForm.value.options.length"
+  class="has-error">
+  Please add options
+</div>
+
+<!-- action buttons -->
+<div mat-dialog-actions align="center">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button (click)="submit()" color="primary" cdkFocusInitial>Submit</button>
+</div>

@@ -1,1 +1,27 @@
-<p>answers works!</p>
+<h1 class="page-title">Answers</h1>
+
+<div class="info" *ngIf="!qna.length">
+  <h2>No QnA to display!</h2>
+</div>
+
+<div class="section" *ngFor="let obj of qna; let i = index">
+  <!-- question -->
+  <h2> {{ i+1 }}. {{ obj.question }}</h2>
+
+  <!-- paragraph answer -->
+  <p *ngIf="obj.type === 'paragraph'"> {{ obj.answer }} </p>
+
+  <!-- checkbox answer -->
+  <ul *ngIf="obj.type === 'checkbox'">
+    <ng-container *ngFor="let opt of obj.options">
+      <li *ngIf="opt.checked"> {{ opt.value }} </li>
+    </ng-container>
+  </ul>
+</div>
+
+<!-- action buttons -->
+<div class="btn-center">
+  <button type="button" class="mat-btn" mat-raised-button color="primary" (click)="backToBuilder()">
+    Back to Form Builder
+  </button>
+</div>

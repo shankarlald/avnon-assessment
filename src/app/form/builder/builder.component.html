@@ -1,1 +1,37 @@
-<p>builder works!</p>
+<h1 class="page-title">Form Builder</h1>
+
+<div class="info" *ngIf="!questions.length">
+  <h2>No Questions to display!</h2>
+</div>
+
+<form [formGroup]="qnaForm">
+  <div formArrayName="questions">
+    <div class="section" *ngFor="let qna of questions?.controls; let i = index">
+      <div [formGroupName]="i">
+        <h2> {{ i+1 }}. {{ qna.value.question }} </h2>
+
+        <!-- paragraph -->
+        <mat-form-field *ngIf="qna.value.type === 'paragraph'">
+          <mat-label>Answer</mat-label>
+          <textarea matInput formControlName="answer"></textarea>
+        </mat-form-field>
+
+        <!-- checkbox -->
+        <div formArrayName="options">
+          <div *ngFor="let option of getOptions(i)?.controls; let j = index">
+            <div [formGroupName]="j">
+              <mat-checkbox formControlName="checked">{{ option.value.value }}</mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- action buttons -->
+  <div class="btn-center">
+    <button type="button" class="mat-btn" mat-raised-button color="primary" (click)="openQuestionDialog()">Add New
+      Question</button>
+    <button type="button" class="mat-btn" mat-button color="primary" (click)="reviewAnswers()">Review Answers</button>
+  </div>
+</form>
