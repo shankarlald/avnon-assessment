@@ -8,4 +8,5 @@ export class Question {
 export class AnswerOption {
   value!: string;
   checked!: boolean;
+  otherValue!: string;
 }

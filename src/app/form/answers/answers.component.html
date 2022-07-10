@@ -9,12 +9,15 @@
   <h2> {{ i+1 }}. {{ obj.question }}</h2>
 
   <!-- paragraph answer -->
-  <p *ngIf="obj.type === 'paragraph'"> {{ obj.answer }} </p>
+  <p *ngIf="obj.type === 'paragraph'"> {{ obj.answer || 'No answer!' }} </p>
 
   <!-- checkbox answer -->
   <ul *ngIf="obj.type === 'checkbox'">
     <ng-container *ngFor="let opt of obj.options">
-      <li *ngIf="opt.checked"> {{ opt.value }} </li>
+      <li *ngIf="opt.checked">
+        {{ opt.value }}
+        <span *ngIf="opt.value === 'Other'"> - {{ opt.otherValue || 'No value added!' }} </span>
+      </li>
     </ng-container>
   </ul>
 </div>

@@ -71,7 +71,7 @@ export class QuestionsComponent implements OnInit {
     if (this.questionForm.invalid || isOptionsValid) {
       return;
     }
-    quesObj.options.push({ value: 'Other', checked: false });
+    quesObj.options.push({ value: 'Other', checked: false, otherValue: '' });
     this.dialogRef.close(quesObj);
   }
 }

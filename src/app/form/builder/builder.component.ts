@@ -65,7 +65,11 @@ export class BuilderComponent implements OnInit, OnDestroy {
     const optionsArray = questionFormGroup.get('options') as FormArray;
     options.forEach((option) =>
       optionsArray.push(
-        this.formBuilder.group({ value: option.value, checked: option?.checked })
+        this.formBuilder.group({
+          value: option.value,
+          checked: option?.checked,
+          otherValue: option?.otherValue,
+        })
       )
     );
   }
